@@ -21,15 +21,21 @@ class Pokemons(Base):
     name = Column(String)
     type = Column(String)
     habilities = Column(String)
-    user_id = Column(Integer, ForeignKey('user_id'))
+    user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
 
 class Favorites(Base):
     __tablename__ = 'favorites'
     id = Column(Integer, primary_key=True)
     pokemon_id = Column(String)
-    user_id = Column(String)
-    user_id = Column(Integer, ForeignKey('user_id'))
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
+
+class Comments(Base):
+    __tablename__ = 'comments'
+    id = Column(Integer, primary_key=True)
+    comment = Column(String(250))
+    user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
     
 
