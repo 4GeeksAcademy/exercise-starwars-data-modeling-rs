@@ -15,29 +15,31 @@ class User(Base):
     user_name = Column(String(50), nullable=False)
     password = Column(String(200))
 
+class Favorites(Base):
+    __tablename__ = 'favorites'
+    id = Column(Integer, primary_key=True)
+    pokemon_id = Column(String, ForeignKey("pokemons.id"))
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
+
 class Pokemons(Base):
     __tablename__ = 'pokemons'
     id = Column(Integer, primary_key=True)
     pokemon_id = Column(String(100))
     energy = Column(Integer)
     Type = Column(String(100))
-    user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User)
+    user_id = Column(Integer, ForeignKey('favorites.id'))
+    user = relationship(Favorites)
 
 class Habilities(Base):
     __tablename__ = 'habilities'
     id = Column(Integer, primary_key=True)
     pokemon_id = Column(String(250))
     damage = Column(Integer)
-    user_id = Column(Integer, ForeignKey('pokemons.id'))
-    user = relationship(Pokemons)
+    pokemon_id = Column(Integer, ForeignKey('pokemons.id'))
+    pokemons = relationship(Pokemons)
 
-class Favorites(Base):
-    __tablename__ = 'favorites'
-    id = Column(Integer, primary_key=True)
-    pokemon_id = Column(String)
-    user_id = Column(Integer, ForeignKey('pokemons.id'))
-    user = relationship(Pokemons)
+
 
     def to_dict(self):
         return {}
